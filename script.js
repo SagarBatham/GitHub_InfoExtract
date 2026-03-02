@@ -7,7 +7,6 @@ function getUser() {
         return;
     }
 
-    // Fetch user details
     fetch("https://api.github.com/users/" + username)
         .then(function(response) {
             return response.json();
@@ -19,18 +18,16 @@ function getUser() {
                 return;
             }
 
-            // Show profile
             var profileDiv = document.getElementById("profile");
 
             profileDiv.innerHTML =
                 "<img src='" + userData.avatar_url + "'>" +
-                "<h2>" + userData.name + "</h2>" +
-                "<p>Username: " + userData.login + "</p>" +
+                "<h2>" + (userData.name || "No Name") + "</h2>" +
+                "<p>@" + userData.login + "</p>" +
                 "<p>Followers: " + userData.followers + "</p>" +
                 "<p>Following: " + userData.following + "</p>" +
                 "<p>Public Repos: " + userData.public_repos + "</p>";
 
-            // Fetch repositories
             return fetch(userData.repos_url);
         })
         .then(function(repoResponse) {
@@ -39,7 +36,7 @@ function getUser() {
         .then(function(repoData) {
 
             var reposDiv = document.getElementById("repos");
-            reposDiv.innerHTML = "<h3>Repositories:</h3>";
+            reposDiv.innerHTML = "<h3>Repositories</h3>";
 
             repoData.slice(0, 5).forEach(function(repo) {
                 reposDiv.innerHTML +=
